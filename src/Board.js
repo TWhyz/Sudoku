@@ -66,7 +66,7 @@ function Board(props) {
             rowOfMiniBoards.push(
                 <MiniBoard row={rowKeyForSquare}
                            col={colKeyForSquare}
-                           onClick={() => props.onClick()}
+                           onClick={props.onClick}
                            size={size}
                            key={[row, col]}
                            board={props.board}
