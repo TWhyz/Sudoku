@@ -16,8 +16,8 @@
 
 
 .square {
-  --box-height: 100px;
-  --box-width: 100px;
+  --box-height: 50px;
+  --box-width: 50px;
 
   border: 1px solid blue;
   float: left;
@@ -29,9 +29,6 @@
   margin-top: -1px;
   padding: 0;
   text-align: center;
+  /*width: 34px;*/
   width: var(--box-width);
-}
-
-.gray {
-  background-color: gray;
 }
