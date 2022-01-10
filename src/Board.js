@@ -10,40 +10,54 @@ function Square(props) {
     )
 }
 
-function MiniBoard(props) {
-    const size = props.size;
-    const miniboard = [];
+class MiniBoard extends React.Component {
 
-    let rowOfSquares = [];
-    let rowKeyForSquare = props.row;
-    let colKeyForSquare = props.col;
-    let value = [];
-
-    for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
-            value = `[${rowKeyForSquare}, ${colKeyForSquare}]`;
-            rowOfSquares.push(
-                <Square key={value}
-                        value={value}
-                        onClick={() => props.onClick(rowKeyForSquare, colKeyForSquare)}/>
+    renderSquare(row, col) {
+        const key = `[${row}, ${col}]`;
+        return (
+            <Square
+                key={key}
+                value={key}
+                onClick={() => this.props.onClick(row, col)}
+            />
             )
-            colKeyForSquare++;
-        }
-        miniboard.push(
-            <div className="square-row" key={row}>
-                {rowOfSquares}
-            </div>
-        )
-        rowOfSquares = [];
-        colKeyForSquare = props.col;
-        rowKeyForSquare++
     }
 
-    return (
-        <div className="mini-board">
-            {miniboard}
-        </div>
-    )
+    buildMiniBoard() {
+        let size = this.props.size;
+        let rowOfSquares = [];
+        let rowKeyForSquare = this.props.row;
+        let colKeyForSquare = this.props.col;
+
+        const miniboard = [];
+
+        for (let row = 0; row < size; row++) {
+            for (let col = 0; col < size; col++) {
+                rowOfSquares.push(
+                    this.renderSquare(rowKeyForSquare, colKeyForSquare)
+                )
+                colKeyForSquare++;
+            }
+            miniboard.push(
+                <div className="square-row" key={row}>
+                    {rowOfSquares}
+                </div>
+            )
+            rowOfSquares = [];
+            colKeyForSquare = this.props.col;
+            rowKeyForSquare++
+        }
+
+        return miniboard;
+    }
+
+    render() {
+        return (
+            <div className="mini-board">
+                {this.buildMiniBoard()}
+            </div>
+        )
+    }
 }
 
 
@@ -66,10 +80,10 @@ function Board(props) {
             rowOfMiniBoards.push(
                 <MiniBoard row={rowKeyForSquare}
                            col={colKeyForSquare}
-                           onClick={props.onClick}
                            size={size}
                            key={[row, col]}
                            board={props.board}
+                           onClick={(i, j) => props.onClick(i, j)}
                 />
             )
             colKeyForSquare += size;
