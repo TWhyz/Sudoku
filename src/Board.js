@@ -1,24 +1,35 @@
-import './App.css';
+import './Board.css';
 import React from 'react';
 
 function Square(props) {
-    const classname = `square ${props.classname}`;
+    const row = props.value[0];
+    const col = props.value[1];
+    const highlightedSquares = props.squareClassname[row] ? props.squareClassname[row][col] : '';
+    const classname = highlightedSquares + ` ${props.grayBackground ? 'square gray' : 'square'}`;
+
     return (
-        <button className={classname} onClick={props.onClick}>
-            {props.value}
-        </button>
+        <input
+            className={classname}
+            onClick={props.onClick}
+            onMouseEnter={props.highlight}
+            onMouseLeave={props.removeHighlight}
+        />
     )
 }
 
 class MiniBoard extends React.Component {
 
-    renderSquare(row, col) {
-        const key = `[${row}, ${col}]`;
+    renderSquare(row, col, grayBackground) {
+        const key = `${row}${col}`;
         return (
             <Square
                 key={key}
                 value={key}
                 onClick={() => this.props.onClick(row, col)}
+                highlight={() => this.props.highlight(row, col)}
+                removeHighlight={() => this.props.removeHighlight(row, col)}
+                squareClassname={this.props.squareClassname}
+                grayBackground={grayBackground}
             />
             )
     }
@@ -34,7 +45,11 @@ class MiniBoard extends React.Component {
         for (let row = 0; row < size; row++) {
             for (let col = 0; col < size; col++) {
                 rowOfSquares.push(
-                    this.renderSquare(rowKeyForSquare, colKeyForSquare)
+                    this.renderSquare(
+                        rowKeyForSquare,
+                        colKeyForSquare,
+                        this.props.grayBackground
+                    )
                 )
                 colKeyForSquare++;
             }
@@ -84,6 +99,10 @@ function Board(props) {
                            key={[row, col]}
                            board={props.board}
                            onClick={(i, j) => props.onClick(i, j)}
+                           highlight={(i, j) => props.highlight(i, j)}
+                           removeHighlight={(i, j) => props.removeHighlight(i, j)}
+                           grayBackground={(row % 2 === 0) === (col % 2 === 0)}
+                           squareClassname={props.squareClassname}
                 />
             )
             colKeyForSquare += size;
