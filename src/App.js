@@ -1,4 +1,4 @@
-import './App.css';
+import './Board.css';
 import Sudoku from './Sudoku';
 import React from "react";
 
