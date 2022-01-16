@@ -1,5 +1,5 @@
-import './Board.css';
-import Sudoku from './Sudoku';
+import './Components/Board.css';
+import Sudoku from './Components/Sudoku';
 import React from "react";
 
 
