@@ -21,8 +21,15 @@ function Square(props) {
     const onChange = (event) => {
         const BACKSPACE = '';
         const input = event.target.value;
-        if (!isNaN(input)) {
-            setValue(input.length === 1 || input === BACKSPACE ? input : input[1]);
+        if (input === BACKSPACE)
+            setValue(BACKSPACE);
+        else if (!isNaN(input)) {
+            if (input.length === 1)
+                setValue(input != '0' ? input : value);
+            else {
+                const secondDigit = input[1];
+                setValue(secondDigit != '0' ? secondDigit : value);
+            }
         }
     }
 
