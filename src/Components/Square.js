@@ -25,10 +25,10 @@ function Square(props) {
             setValue(BACKSPACE);
         else if (!isNaN(input)) {
             if (input.length === 1)
-                setValue(input != '0' ? input : value);
+                setValue(input !== '0' ? input : value);
             else {
                 const secondDigit = input[1];
-                setValue(secondDigit != '0' ? secondDigit : value);
+                setValue(secondDigit !== '0' ? secondDigit : value);
             }
         }
     }
