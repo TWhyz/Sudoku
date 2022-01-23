@@ -3,31 +3,46 @@ import React, {useState} from "react";
 function Square(props) {
     const row = props.value[0];
     const col = props.value[1];
-    const highlightedSquares = props.squareClassname[row] ? props.squareClassname[row][col] : '';
-    const classname = highlightedSquares + ` ${props.grayBackground ? 'square gray' : 'square'}`;
+    const [value, setValue] = useState('');
 
-    const [value, setValue] = useState('')
-
-    const isValid = (value) => {
-        return !isNaN(value) && value < 9 && value > 0;
+    const determineClassname = (rowInSquareClassnames, col, isBackgroundGray) => {
+        let name = 'square';
+        if (rowInSquareClassnames) {
+            if (rowInSquareClassnames[col]) {
+                name += ' hover';
+            }
+        }
+        if (isBackgroundGray) {
+            name += ' gray'
+        }
+        return name;
     }
 
-    const onChange = (e) => {
-        const input = e.target.value;
-        console.log(input)
-        console.log(e)
-        if (isValid(input)) setValue(input);
+    const onChange = (event) => {
+        const BACKSPACE = '';
+        const input = event.target.value;
+        if (input === BACKSPACE)
+            setValue(BACKSPACE);
+        else if (!isNaN(input)) {
+            if (input.length === 1)
+                setValue(input !== '0' ? input : value);
+            else {
+                const secondDigit = input[1];
+                setValue(secondDigit !== '0' ? secondDigit : value);
+            }
+        }
     }
+
 
     return (
         <input
-            className={classname}
-            // onClick={props.onClick}
+            className={determineClassname(props.squareClassname[row], col, props.grayBackground)}
             onMouseEnter={props.highlight}
             onMouseLeave={props.removeHighlight}
             value={value}
-            onChange={onChange}
+            onChange={(event) => onChange(event)}
         />
+
     )
 }
 
