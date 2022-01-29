@@ -3,12 +3,15 @@ import React, {useState} from "react";
 function Square(props) {
     const row = props.value[0];
     const col = props.value[1];
+    const squareClassname = props.squareClassname;
+    const addGrayBackground = props.grayBackground;
+
     const [value, setValue] = useState('');
 
-    const determineClassname = (rowInSquareClassnames, col, isBackgroundGray) => {
+    const determineClassname = (squareClassname, isBackgroundGray) => {
         let name = 'square';
-        if (rowInSquareClassnames) {
-            if (rowInSquareClassnames[col]) {
+        if (squareClassname[row]) {
+            if (squareClassname[row][col]) {
                 name += ' hover';
             }
         }
@@ -33,10 +36,9 @@ function Square(props) {
         }
     }
 
-
     return (
         <input
-            className={determineClassname(props.squareClassname[row], col, props.grayBackground)}
+            className={determineClassname(squareClassname, addGrayBackground)}
             onMouseEnter={props.highlight}
             onMouseLeave={props.removeHighlight}
             value={value}
